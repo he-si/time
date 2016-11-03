@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script src="time/laydate.js"></script>
+	<style>
+		*{margin:0;padding:0;list-style:none;}
+		#outer{width:650px;height:250px;background:#555;border-radius:10px;margin:180px;border:10px solid #222;}
+		#text{font-size:60px;color:#fff;font-family:'黑体';text-align:center;margin-top:3px;}
+		#center{width:300px;height:30px;margin-left:170px;margin-top:15px;}
+		#center #one{float:left;height:30px;line-height:30px;font-size:16px;color:#fff;font-family:'黑体';}
+		#center input{float:right;height:30px;width:215px;}
+		#bottom{width:200px;}
+		p{color:#fff;font-size:20px;text-align: center;}
+		#ul{width:400px;margin-top:30px;margin-left:150px;}
+		#ul li{float:left;margin-left:30px;color:#fff;}
+		button{margin-left:300px;padding-left:10px;padding-right:10px;margin-top:10px;}
+		#ul li.time{font-size:25px;color:red;font-family: '粗体'}
+	</style>
+</head>
+<body>
+	<div id="outer">
+		<div id="text">倒计时</div>
+		<div id="center">
+			<div id="one">结束时间：</div>
+			<input id="endTime" onclick="laydate({istime: true, format: 'YYYY/MM/DD hh:mm:ss'})"  type="text">
+		</div>
+		<button onclick="btn()">开始计时</button>
+		<div id='bottom'>
+			<p>距离结束时间:</p>
+			<ul id="ul">
+				<li id="d" class="time"></li>
+				<li>天</li>
+				<li id="h" class="time"></li>
+				<li>时</li>
+				<li id="s" class="time"></li>
+				<li>分</li>
+				<li id="i" class="time"></li>
+				<li>秒</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		function btn(){
+			// 获取对象
+			var endTimeObj=document.getElementById('endTime');
+			// 当前秒数
+			var nowtime=new Date().getTime();
+			// 结束时间对象
+			var endTime=new Date(endTimeObj.value).getTime(); 
+			if(!endTimeObj.value){
+				alert('请输入结束时间！')
+				return false;
+			}
+			// 时间差
+			var T=endTime-nowtime;
+			// 时间不能是负数 必须是当前时间之后
+			if(T<0){
+				alert('时间必须在今天之后！')
+				return false;
+			}
+			// 转化格式
+			var d=Math.floor(T/1000/60/60/24);
+			var h=Math.floor(T/1000/60/60%24);
+			var s=Math.floor(T/1000/60%60);
+			var i=Math.floor(T/1000%60);
+			// 把数值写到容器中
+			document.getElementById('d').innerHTML=d;
+			document.getElementById('h').innerHTML=h;
+			document.getElementById('s').innerHTML=s;
+			document.getElementById('i').innerHTML=i;
+			setTimeout(btn,1000);
+		}
+	</script>
+</body>
+</html>
